@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="ugv_name" default="billi"/>
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="debug" default="false"/>
+    <arg name="verbose" default="false"/>
+
+    <env name="GAZEBO_MODEL_PATH"       value="${GAZEBO_MODEL_PATH}:$(find billi_sim)/models"/>
+    <env name="GAZEBO_RESOURCE_PATH"    value="${GAZEBO_RESOURCE_PATH}:$(find billi_sim)/models"/>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="debug" default="$(arg debug)"/>
+        <arg name="verbose" default="$(arg verbose)"/>
+        <arg name="gui" default="$(arg gui)"/>
+        <arg name="paused" default="$(arg paused)"/>
+        <arg name="use_sim_time" default="$(arg use_sim_time)"/>
+    </include>
+
+    <group ns="$(arg ugv_name)">
+        <include file="$(find billi_sim)/launch/spawn_billi.launch">
+            <arg name="ugv_name" default="$(arg ugv_name)"/>
+        </include>
+        <!-- <rosparam command="load" file="$(find billi_sim)/cfg/control_params.yaml"/> -->
+        <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="default_controller"/> -->
+        <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/> -->
+    </group>
+</launch>

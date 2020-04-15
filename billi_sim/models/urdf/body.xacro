@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<!-- trunk macro definition -->
+	<xacro:macro name="billi_body" params="name">
+	
+		<!-- Floating-base Joint -->
+		<!--joint name="floating_base" type="fixed">
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<parent link="${name}"/>
+			<child link="body"/>
+		</joint>
+		<gazebo reference="floating_base">
+			<provideFeedback>true</provideFeedback>
+			<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo-->
+		
+		<!-- Trunk link -->
+		<link name="body">
+			<visual>
+				<geometry>
+					<mesh filename="package://billi_sim/models/meshes/body.stl" scale="1 1 1"/>
+				</geometry>
+			</visual>
+			<collision>
+				<geometry>
+					<mesh filename="package://billi_sim/models/meshes/body.stl" scale="1 1 1"/>
+				</geometry>
+			</collision> 
+			<inertial>
+				<mass value="1.0"/>
+				<inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+			</inertial>
+		</link>
+		<gazebo reference="body"/>
+
+	</xacro:macro>
+
+</robot>

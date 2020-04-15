@@ -22,7 +22,7 @@
 	<!-- trunk -->
 	<xacro:hyq_trunk name="base"/>
 
-	<!-- rh leg -->
+	<!-- LF leg -->
 	<xacro:hyq_leg
 		name="lf"
 		parent="trunk"

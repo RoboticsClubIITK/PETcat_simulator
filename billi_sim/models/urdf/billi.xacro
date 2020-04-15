@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+
+<robot name="billi" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="PI" value="3.1415926535897931"/>
+  <xacro:property name="d_lr" value="0.414"/>
+  <xacro:property name="d_fh" value="0.747"/>
+  <xacro:property name="d_tbb" value="0.082"/>
+  <xacro:property name="d_p1p2" value="0.35"/>
+
+	<!-- billi shoulder -->
+	<xacro:include filename="$(find billi_sim)/models/urdf/shoulder.xacro"/>
+
+	<!-- billi body -->
+	<xacro:include filename="$(find billi_sim)/models/urdf/body.xacro"/>
+
+	<gazebo>
+		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
+	</gazebo>
+
+	<!-- Using the macros defined above -->
+	<!-- body -->
+	<xacro:billi_body name="base"/>
+
+
+	<!-- front shoulder -->
+	<!--xacro:billi_shoulder
+		name="fs"
+		parent="body"
+		reflect_hip="1"
+		reflect_upper="1"
+		reflect_front="1">
+		<origin xyz="${d_fh/2} ${d_lr/2} 0" rpy="0 ${PI/2} ${PI}"/>
+	</xacro:billi_shoulder-->
+
+	<!-- back shoulder -->
+	<!--xacro:billi_shoulder
+		name="bs"
+		parent="body"
+		reflect_hip="-1"
+		reflect_upper="-1"
+		reflect_front="1">
+		<origin xyz="${d_fh/2} ${-d_lr/2} 0" rpy="0 ${PI/2} 0"/>
+	</xacro:billi_shoulder-->
+
+	<!--gazebo>
+		<plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+		  <jointName>fs_haa_joint, bs_haa_joint</jointName>
+		  <updateRate>60.0</updateRate>
+		  <alwaysOn>true</alwaysOn>
+		</plugin>
+	  </gazebo-->
+	
+		<!-- transmissions -->
+		<!--xacro:macro name="trans" params="num name part">
+			<transmission name="tran${num}">
+			<joint name="${name}_${part}_joint">
+				<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+			</joint>
+			<type>transmission_interface/SimpleTransmission</type>
+			<actuator name="servo${num}">
+				<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+				<mechanicalReduction>1</mechanicalReduction>
+			</actuator>
+			</transmission>
+		</xacro:macro>
+
+		<xacro:trans num="1" name="fs" part="haa"/>
+		<xacro:trans num="2" name="bs" part="haa"/-->
+
+</robot>

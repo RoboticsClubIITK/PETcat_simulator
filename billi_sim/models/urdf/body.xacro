@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-	<!-- trunk macro definition -->
+	<!-- body macro definition -->
 	<xacro:macro name="billi_body" params="name">
 	
 		<!-- Floating-base Joint -->
@@ -15,7 +15,7 @@
 			<disableFixedJointLumping>true</disableFixedJointLumping>
 		</gazebo-->
 		
-		<!-- Trunk link -->
+		<!-- body link -->
 		<link name="body">
 			<visual>
 				<geometry>

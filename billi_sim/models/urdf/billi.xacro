@@ -8,20 +8,108 @@
   <xacro:property name="d_tbb" value="0.082"/>
   <xacro:property name="d_p1p2" value="0.35"/>
 
+
+    <xacro:macro name="hyq_leg" params="name parent *origin reflect_hip reflect_upper reflect_front">
 	<!-- billi shoulder -->
 	<xacro:include filename="$(find billi_sim)/models/urdf/shoulder.xacro"/>
 
+    <xacro:include filename="$(find towr_simulator)/models/urdf/shoulder.xacro"/>
+
 	<!-- billi body -->
 	<xacro:include filename="$(find billi_sim)/models/urdf/body.xacro"/>
+
+    <xacro:include filename="$(find towr_simulator)/models/urdf/body.xacro"/>
+
+    <!-- billi leg -->
+	<xacro:include filename="$(find billi_sim)/models/urdf/leg.xacro"/>
+
+    <xacro:include filename="$(find towr_simulator)/models/urdf/leg.xacro"/>
+
+    <!-- billi head -->
+	<xacro:include filename="$(find billi_sim)/models/urdf/head.xacro"/>
+
+    <xacro:include filename="$(find towr_simulator)/models/urdf/head.xacro"/>
 
 	<gazebo>
 		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
 	</gazebo>
 
+
 	<!-- Using the macros defined above -->
 	<!-- body -->
 	<xacro:billi_body name="base"/>
 
+    <joint name="lf_haa_joint" type="revolute">
+			<xacro:insert_block name="origin"/>
+			<parent link="base"/>
+			<child  link="lf_hipassembly"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="150.0" velocity="12.0" lower="${-7*PI/18}" upper="${PI/6}"/>
+	</joint>
+
+    <joint name="lh_haa_joint" type="revolute">
+			<xacro:insert_block name="origin"/>
+			<parent link="base"/>
+			<child  link="lh_hipassembly"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="150.0" velocity="12.0" lower="${-7*PI/18}" upper="${PI/6}"/>
+	</joint>
+
+    <joint name="rf_haa_joint" type="revolute">
+			<xacro:insert_block name="origin"/>
+			<parent link="base"/>
+			<child  link="rf_hipassembly"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="150.0" velocity="12.0" lower="${-7*PI/18}" upper="${PI/6}"/>
+	</joint>
+
+    <joint name="rh_haa_joint" type="revolute">
+			<xacro:insert_block name="origin"/>
+			<parent link="base"/>
+			<child  link="rh_hipassembly"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="150.0" velocity="12.0" lower="${-7*PI/18}" upper="${PI/6}"/>
+	</joint>
+
+    <joint name="lf_hfe_joint" type="revolute">
+			<origin xyz="${d_tbb} 0 0" rpy="${reflect_upper*PI/2} 0 0"/>
+			<parent link="lf_hipassembly"/>
+			<child  link="lf_upperleg"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="150.0" velocity="12.0"
+          lower="${-(1+reflect_front)*5*PI/36-(1-reflect_front)*7*PI/36}"
+		  upper="${(1-reflect_front)*5*PI/36+(1+reflect_front)*7*PI/36}"/>
+	</joint>
+
+    <joint name="lh_hfe_joint" type="revolute">
+			<origin xyz="${d_tbb} 0 0" rpy="${reflect_upper*PI/2} 0 0"/>
+			<parent link="lh_hipassembly"/>
+			<child  link="lh_upperleg"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="150.0" velocity="12.0"
+          lower="${-(1+reflect_front)*5*PI/36-(1-reflect_front)*7*PI/36}"
+		  upper="${(1-reflect_front)*5*PI/36+(1+reflect_front)*7*PI/36}"/>
+	</joint>
+
+    <joint name="rh_hfe_joint" type="revolute">
+			<origin xyz="${d_tbb} 0 0" rpy="${reflect_upper*PI/2} 0 0"/>
+			<parent link="rh_hipassembly"/>
+			<child  link="rh_upperleg"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="150.0" velocity="12.0"
+          lower="${-(1+reflect_front)*5*PI/36-(1-reflect_front)*7*PI/36}"
+		  upper="${(1-reflect_front)*5*PI/36+(1+reflect_front)*7*PI/36}"/>
+	</joint>
+
+    <joint name="rf_hfe_joint" type="revolute">
+			<origin xyz="${d_tbb} 0 0" rpy="${reflect_upper*PI/2} 0 0"/>
+			<parent link="rf}_hipassembly"/>
+			<child  link="rf_upperleg"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="150.0" velocity="12.0"
+          lower="${-(1+reflect_front)*5*PI/36-(1-reflect_front)*7*PI/36}"
+		  upper="${(1-reflect_front)*5*PI/36+(1+reflect_front)*7*PI/36}"/>
+	</joint>
 
 	<!-- front shoulder -->
 	<!--xacro:billi_shoulder
@@ -67,5 +155,5 @@
 
 		<xacro:trans num="1" name="fs" part="haa"/>
 		<xacro:trans num="2" name="bs" part="haa"/-->
-
+    </xacro:macro>
 </robot>

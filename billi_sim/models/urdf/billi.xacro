@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+
+<robot name="billi" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- billi shoulder -->
+	<xacro:include filename="$(find billi_sim)/models/urdf/shoulder.xacro"/>
+	<!-- billi body -->
+	<xacro:include filename="$(find billi_sim)/models/urdf/body.xacro"/>
+
+    <!-- billi leg -->
+	<xacro:include filename="$(find billi_sim)/models/urdf/leg.xacro"/>
+
+
+    <!-- billi head -->
+	<xacro:include filename="$(find billi_sim)/models/urdf/head.xacro"/>
+
+
+	<gazebo>
+		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
+	</gazebo>
+
+	<!-- body -->
+	<!-- <xacro:billi_body name="base"/> -->
+
+    <joint name="head_body" type="revolute">
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<parent link="body"/>
+			<child  link="head"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="150.0" velocity="12.0"
+          lower="-1.57"
+		  upper="1.57"/>
+	</joint>
+<gazebo reference="head_body">
+		<provideFeedback>true</provideFeedback>
+		<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo>
+
+    <joint name="right_hand" type="revolute">
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<parent link="body"/>
+			<child  link="leg1"/>
+			<axis xyz="1 0 0"/>
+			<limit effort="150.0" velocity="12.0"
+          lower="-1.57"
+		  upper="1.57"/>
+	</joint>
+	<gazebo reference="right_hand">
+		<provideFeedback>true</provideFeedback>
+		<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo>
+
+
+   <joint name="left_hand" type="revolute">
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<parent link="body"/>
+			<child  link="leg2"/>
+			<axis xyz="1 0 0"/>
+			<limit effort="150.0" velocity="12.0"
+          lower="-1.57"
+		  upper="1.57"/>
+	</joint>
+<gazebo reference="left_hand">
+		<provideFeedback>true</provideFeedback>
+		<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo>
+
+ <joint name="right_leg" type="revolute">
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<parent link="body"/>
+			<child  link="leg1"/>
+			<axis xyz="1 0 0"/>
+			<limit effort="150.0" velocity="12.0"
+          lower="-1.57"
+		  upper="1.57"/>
+	</joint>
+	<gazebo reference="right_leg">
+			<provideFeedback>true</provideFeedback>
+			<disableFixedJointLumping>true</disableFixedJointLumping>
+			</gazebo>
+
+    <joint name="left_leg" type="revolute">
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<parent link="body"/>
+			<child  link="leg2"/>
+			<axis xyz="1 0 0"/>
+			<limit effort="150.0" velocity="12.0"
+          lower="-1.57"
+		  upper="1.57"/>
+	</joint>
+	<gazebo reference="left_leg">
+		<provideFeedback>true</provideFeedback>
+		<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo>
+
+</robot>
+    

@@ -6,15 +6,25 @@
 
    <link name="head">
     <visual>
+<<<<<<< HEAD
+	<origin rpy="3.14 0 1" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://billi_sim/models/meshes/head.stl" scale ="1 1 1"/>
+=======
 	<origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <mesh filename="package://billi_sim/meshes/head.stl" scale ="1 1 1"/>
+>>>>>>> a2351546f9e6cd629167bb84ce18117092a4d7df
       </geometry>
       <material name="blue"/>
     </visual>
     <collision>
       <geometry>
+<<<<<<< HEAD
+        <mesh filename="package://billi_sim/models/meshes/head.stl" scale ="1 1 1"/>
+=======
         <mesh filename="package://billi_sim/meshes/head.stl" scale ="1 1 1"/>
+>>>>>>> a2351546f9e6cd629167bb84ce18117092a4d7df
       </geometry>
     </collision>
 	<inertial>

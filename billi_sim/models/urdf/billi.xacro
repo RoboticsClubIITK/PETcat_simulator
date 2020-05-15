@@ -3,16 +3,11 @@
 <robot name="billi" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!-- billi shoulder -->
-<<<<<<< HEAD
 	<!--xacro:include filename="$(find billi_sim)/models/urdf/shoulder.xacro"/-->
-=======
-	<xacro:include filename="$(find billi_sim)/models/urdf/shoulder.xacro"/>
->>>>>>> a2351546f9e6cd629167bb84ce18117092a4d7df
 	<!-- billi body -->
 	<xacro:include filename="$(find billi_sim)/models/urdf/body.xacro"/>
 
     <!-- billi leg -->
-<<<<<<< HEAD
 	<xacro:include filename="$(find billi_sim)/models/urdf/leg1.xacro"/>
 	<xacro:include filename="$(find billi_sim)/models/urdf/leg2.xacro"/>
 	<xacro:include filename="$(find billi_sim)/models/urdf/leg3.xacro"/>
@@ -21,29 +16,18 @@
 	<xacro:include filename="$(find billi_sim)/models/urdf/leg-lower2.xacro"/>
 	<xacro:include filename="$(find billi_sim)/models/urdf/leg-lower1.xacro"/>
 	<xacro:include filename="$(find billi_sim)/models/urdf/leg-lower3.xacro"/>
-=======
-	<xacro:include filename="$(find billi_sim)/models/urdf/leg.xacro"/>
-
->>>>>>> a2351546f9e6cd629167bb84ce18117092a4d7df
 
     <!-- billi head -->
 	<xacro:include filename="$(find billi_sim)/models/urdf/head.xacro"/>
 
 
-<<<<<<< HEAD
 	<!--gazebo>
 		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
 	</gazebo-->
-=======
-	<gazebo>
-		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
-	</gazebo>
->>>>>>> a2351546f9e6cd629167bb84ce18117092a4d7df
 
 	<!-- body -->
 	<!-- <xacro:billi_body name="base"/> -->
 
-<<<<<<< HEAD
 <joint name="lower_upper1" type="revolute">
 			<origin xyz="0.0 -0.039282 0.0" rpy="0 0 0"/>
 			<parent link="leg1"/>
@@ -103,10 +87,6 @@
 
     <joint name="head_body" type="revolute">
 			<origin xyz="0.098 0.035 -0.048" rpy="0 0 0"/>
-=======
-    <joint name="head_body" type="revolute">
-			<origin xyz="0 0 0" rpy="0 0 0"/>
->>>>>>> a2351546f9e6cd629167bb84ce18117092a4d7df
 			<parent link="body"/>
 			<child  link="head"/>
 			<axis xyz="0 0 1"/>
@@ -123,11 +103,7 @@
 			<origin xyz="0 0 0" rpy="0 0 0"/>
 			<parent link="body"/>
 			<child  link="leg1"/>
-<<<<<<< HEAD
 			<axis xyz="0 0 1"/>
-=======
-			<axis xyz="1 0 0"/>
->>>>>>> a2351546f9e6cd629167bb84ce18117092a4d7df
 			<limit effort="150.0" velocity="12.0"
           lower="-1.57"
 		  upper="1.57"/>
@@ -139,17 +115,10 @@
 
 
    <joint name="left_hand" type="revolute">
-<<<<<<< HEAD
 			<origin xyz="0 0 -0.092" rpy="0 0 0"/>
 			<parent link="body"/>
 			<child  link="leg4"/>
 			<axis xyz="0 0 1"/>
-=======
-			<origin xyz="0 0 0" rpy="0 0 0"/>
-			<parent link="body"/>
-			<child  link="leg2"/>
-			<axis xyz="1 0 0"/>
->>>>>>> a2351546f9e6cd629167bb84ce18117092a4d7df
 			<limit effort="150.0" velocity="12.0"
           lower="-1.57"
 		  upper="1.57"/>
@@ -160,17 +129,10 @@
 		</gazebo>
 
  <joint name="right_leg" type="revolute">
-<<<<<<< HEAD
 			<origin xyz=".083 .017 0" rpy="0 0 0"/>
 			<parent link="body"/>
 			<child  link="leg2"/>
 			<axis xyz="0 0 1"/>
-=======
-			<origin xyz="0 0 0" rpy="0 0 0"/>
-			<parent link="body"/>
-			<child  link="leg1"/>
-			<axis xyz="1 0 0"/>
->>>>>>> a2351546f9e6cd629167bb84ce18117092a4d7df
 			<limit effort="150.0" velocity="12.0"
           lower="-1.57"
 		  upper="1.57"/>
@@ -181,17 +143,10 @@
 			</gazebo>
 
     <joint name="left_leg" type="revolute">
-<<<<<<< HEAD
 			<origin xyz="0.083 0.017 -0.092" rpy="0 0 0"/>
 			<parent link="body"/>
 			<child  link="leg3"/>
 			<axis xyz="0 0 1"/>
-=======
-			<origin xyz="0 0 0" rpy="0 0 0"/>
-			<parent link="body"/>
-			<child  link="leg2"/>
-			<axis xyz="1 0 0"/>
->>>>>>> a2351546f9e6cd629167bb84ce18117092a4d7df
 			<limit effort="150.0" velocity="12.0"
           lower="-1.57"
 		  upper="1.57"/>
@@ -200,7 +155,6 @@
 		<provideFeedback>true</provideFeedback>
 		<disableFixedJointLumping>true</disableFixedJointLumping>
 		</gazebo>
-<<<<<<< HEAD
 <!-- Adding transmissions-->
 <transmission name="head">
     <type>transmission_interface/SimpleTransmission</type>
@@ -303,8 +257,3 @@
 </gazebo>
 </robot>
     
-=======
-
-</robot>
-    
->>>>>>> a2351546f9e6cd629167bb84ce18117092a4d7df

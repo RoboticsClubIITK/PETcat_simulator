@@ -14,6 +14,7 @@
         <arg name="paused" value="$(arg paused)"/>
         <arg name="use_sim_time" value="true"/>
         <arg name="headless" value="$(arg headless)"/>
+        <arg name="verbose" default="true"/>
     </include>
 
     <group ns="$(arg robot_name)">

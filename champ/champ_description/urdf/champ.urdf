@@ -97,8 +97,6 @@
   <gazebo reference="hokuyo_frame">
     <material>Gazebo/FlatBlack</material>
   </gazebo>
-
-
   <joint name="camera_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0.25 0.0 0.075"/>
     <parent link="base_link"/>
@@ -116,6 +114,14 @@
         <mesh filename="package://hector_sensors_description/meshes/asus_camera/asus_camera_simple.dae"/>
       </geometry>
     </visual>
+    <!--
+       <collision>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.035 0.185 0.025"/>
+          </geometry>
+        </collision>
+        -->
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
@@ -123,7 +129,7 @@
       </geometry>
     </collision>
   </link>
-  <!--joint name="camera_depth_joint" type="fixed">
+  <joint name="camera_depth_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0.0 0.049 0.0"/>
     <parent link="camera_link"/>
     <child link="camera_depth_frame"/>
@@ -146,10 +152,33 @@
     <parent link="camera_rgb_frame"/>
     <child link="camera_rgb_optical_frame"/>
   </joint>
-  <link name="camera_rgb_optical_frame"/-->
-  <!-- ASUS Xtion PRO camera for simulation -->
-  <gazebo reference="camera_frame">
-    <sensor name="camera" type="stereo_camera">
+  <link name="camera_rgb_optical_frame"/>
+  <gazebo>
+    <plugin filename="libhector_gazebo_ros_imu.so" name="imu_controller">
+      <updateRate>50.0</updateRate>
+      <bodyName>imu_link</bodyName>
+      <topicName>imu/data</topicName>
+      <accelDrift>0.005 0.005 0.005</accelDrift>
+      <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+      <rateDrift>0.005 0.005 0.005 </rateDrift>
+      <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
+      <headingDrift>0.005</headingDrift>
+      <headingGaussianNoise>0.005</headingGaussianNoise>
+    </plugin>
+  </gazebo>
+  <link name="stereo_cam_link">
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-09" ixy="0.0" ixz="0.0" iyy="1e-09" iyz="0.0" izz="1e-09"/>
+    </inertial>
+  </link>
+  <joint name="stereo_cam_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="stereo_cam_link" />
+  </joint>
+  <gazebo reference="stereo_cam_link">
+    <sensor name="stereo_camera" type="multicamera">
       <update_rate>20</update_rate>
       <camera name="left">
         <horizontal_fov>1.09606677025</horizontal_fov>
@@ -171,7 +200,7 @@
           <stddev>0.007</stddev>
         </noise>
       </camera>
-     <camera name="right">
+      <camera name="right">
         <pose>0 -0.07 0 0 0 0</pose>
         <horizontal_fov>1.3962634</horizontal_fov>
         <image>
@@ -206,22 +235,6 @@
         <distortionT2>0.0</distortionT2>
       </plugin>
     </sensor>
-  </gazebo>
-
-
-
-  <gazebo>
-    <plugin filename="libhector_gazebo_ros_imu.so" name="imu_controller">
-      <updateRate>50.0</updateRate>
-      <bodyName>imu_link</bodyName>
-      <topicName>imu/data</topicName>
-      <accelDrift>0.005 0.005 0.005</accelDrift>
-      <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
-      <rateDrift>0.005 0.005 0.005 </rateDrift>
-      <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
-      <headingDrift>0.005</headingDrift>
-      <headingGaussianNoise>0.005</headingGaussianNoise>
-    </plugin>
   </gazebo>
   <link name="imu_link">
     <inertial>

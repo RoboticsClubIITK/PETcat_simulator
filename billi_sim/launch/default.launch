@@ -21,8 +21,16 @@
         <include file="$(find billi_sim)/launch/spawn_billi.launch">
             <arg name="ugv_name" default="$(arg ugv_name)"/>
         </include>
-        <!-- <rosparam command="load" file="$(find billi_sim)/cfg/control_params.yaml"/> -->
-        <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="default_controller"/> -->
-        <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/> -->
+<!-- Load joint controller configurations from YAML file to parameter server -->
+         <rosparam command="load" file="$(find billi_sim)/config/billi.yaml"/>
+ <!-- load the controllers -->
+         <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="default_controller"/>
+ <!-- convert joint states to TF transforms for rviz, etc -->
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"
+respawn="false" output="screen">
+    <remap from="/joint_states" to="/billi/joint_states" />
+</node>
+	
     </group>
 </launch>

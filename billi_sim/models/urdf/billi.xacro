@@ -2,158 +2,303 @@
 
 <robot name="billi" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:property name="PI" value="3.1415926535897931"/>
-  <xacro:property name="d_lr" value="0.414"/>
-  <xacro:property name="d_fh" value="0.747"/>
-  <xacro:property name="d_tbb" value="0.082"/>
-  <xacro:property name="d_p1p2" value="0.35"/>
+<!-- billi body -->
+<xacro:include filename="$(find billi_sim)/models/urdf/body.xacro"/>
+
+<!-- billi leg -->
+<xacro:include filename="$(find billi_sim)/models/urdf/leg1.xacro"/>
+<xacro:include filename="$(find billi_sim)/models/urdf/leg2.xacro"/>
+<xacro:include filename="$(find billi_sim)/models/urdf/leg3.xacro"/>
+<xacro:include filename="$(find billi_sim)/models/urdf/leg4.xacro"/>
+<xacro:include filename="$(find billi_sim)/models/urdf/leg-lower4.xacro"/>
+<xacro:include filename="$(find billi_sim)/models/urdf/leg-lower2.xacro"/>
+<xacro:include filename="$(find billi_sim)/models/urdf/leg-lower1.xacro"/>
+<xacro:include filename="$(find billi_sim)/models/urdf/leg-lower3.xacro"/>
+<xacro:include filename="$(find billi_sim)/models/urdf/paw.xacro"/>
+
+<!-- billi head -->
+<xacro:include filename="$(find billi_sim)/models/urdf/head.xacro"/>
 
 
-    <xacro:macro name="hyq_leg" params="name parent *origin reflect_hip reflect_upper reflect_front">
-	<!-- billi shoulder -->
-	<xacro:include filename="$(find billi_sim)/models/urdf/shoulder.xacro"/>
 
-    <xacro:include filename="$(find towr_simulator)/models/urdf/shoulder.xacro"/>
-
-	<!-- billi body -->
-	<xacro:include filename="$(find billi_sim)/models/urdf/body.xacro"/>
-
-    <xacro:include filename="$(find towr_simulator)/models/urdf/body.xacro"/>
-
-    <!-- billi leg -->
-	<xacro:include filename="$(find billi_sim)/models/urdf/leg.xacro"/>
-
-    <xacro:include filename="$(find towr_simulator)/models/urdf/leg.xacro"/>
-
-    <!-- billi head -->
-	<xacro:include filename="$(find billi_sim)/models/urdf/head.xacro"/>
-
-    <xacro:include filename="$(find towr_simulator)/models/urdf/head.xacro"/>
-
-	<gazebo>
-		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
-	</gazebo>
-
-
-	<!-- Using the macros defined above -->
-	<!-- body -->
-	<xacro:billi_body name="base"/>
-
-    <joint name="lf_haa_joint" type="revolute">
-			<xacro:insert_block name="origin"/>
-			<parent link="base"/>
-			<child  link="lf_hipassembly"/>
+<!-- _____________________________________________________________HEAD AND BODY JOINT_________________________________________________ -->
+<!--head_body -->
+    		<joint name="head_body" type="revolute">
+			<origin xyz="0.08 -0.06 -0.22" rpy="0 0 0"/>
+			<parent link="body"/>
+			<child  link="head"/>
 			<axis xyz="0 0 1"/>
-			<limit effort="150.0" velocity="12.0" lower="${-7*PI/18}" upper="${PI/6}"/>
-	</joint>
+			<limit effort="10.0" velocity="1.0"
+          				lower="-0.08"
+		  			upper="0.08"/>
+		</joint>
 
-    <joint name="lh_haa_joint" type="revolute">
-			<xacro:insert_block name="origin"/>
-			<parent link="base"/>
-			<child  link="lh_hipassembly"/>
+		<gazebo reference="head_body">
+			<provideFeedback>true</provideFeedback>
+			<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo>
+
+
+<!-- _____________________________________________________________RIGHT HAND BOTH JOINTS_________________________________________________ -->
+<!-- right_hand-->
+    		<joint name="right_hand" type="revolute">
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<parent link="body"/>
+			<child  link="leg1"/>
 			<axis xyz="0 0 1"/>
-			<limit effort="150.0" velocity="12.0" lower="${-7*PI/18}" upper="${PI/6}"/>
-	</joint>
-
-    <joint name="rf_haa_joint" type="revolute">
-			<xacro:insert_block name="origin"/>
-			<parent link="base"/>
-			<child  link="rf_hipassembly"/>
-			<axis xyz="0 0 1"/>
-			<limit effort="150.0" velocity="12.0" lower="${-7*PI/18}" upper="${PI/6}"/>
-	</joint>
-
-    <joint name="rh_haa_joint" type="revolute">
-			<xacro:insert_block name="origin"/>
-			<parent link="base"/>
-			<child  link="rh_hipassembly"/>
-			<axis xyz="0 0 1"/>
-			<limit effort="150.0" velocity="12.0" lower="${-7*PI/18}" upper="${PI/6}"/>
-	</joint>
-
-    <joint name="lf_hfe_joint" type="revolute">
-			<origin xyz="${d_tbb} 0 0" rpy="${reflect_upper*PI/2} 0 0"/>
-			<parent link="lf_hipassembly"/>
-			<child  link="lf_upperleg"/>
-			<axis xyz="0 0 1"/>
-			<limit effort="150.0" velocity="12.0"
-          lower="${-(1+reflect_front)*5*PI/36-(1-reflect_front)*7*PI/36}"
-		  upper="${(1-reflect_front)*5*PI/36+(1+reflect_front)*7*PI/36}"/>
-	</joint>
-
-    <joint name="lh_hfe_joint" type="revolute">
-			<origin xyz="${d_tbb} 0 0" rpy="${reflect_upper*PI/2} 0 0"/>
-			<parent link="lh_hipassembly"/>
-			<child  link="lh_upperleg"/>
-			<axis xyz="0 0 1"/>
-			<limit effort="150.0" velocity="12.0"
-          lower="${-(1+reflect_front)*5*PI/36-(1-reflect_front)*7*PI/36}"
-		  upper="${(1-reflect_front)*5*PI/36+(1+reflect_front)*7*PI/36}"/>
-	</joint>
-
-    <joint name="rh_hfe_joint" type="revolute">
-			<origin xyz="${d_tbb} 0 0" rpy="${reflect_upper*PI/2} 0 0"/>
-			<parent link="rh_hipassembly"/>
-			<child  link="rh_upperleg"/>
-			<axis xyz="0 0 1"/>
-			<limit effort="150.0" velocity="12.0"
-          lower="${-(1+reflect_front)*5*PI/36-(1-reflect_front)*7*PI/36}"
-		  upper="${(1-reflect_front)*5*PI/36+(1+reflect_front)*7*PI/36}"/>
-	</joint>
-
-    <joint name="rf_hfe_joint" type="revolute">
-			<origin xyz="${d_tbb} 0 0" rpy="${reflect_upper*PI/2} 0 0"/>
-			<parent link="rf}_hipassembly"/>
-			<child  link="rf_upperleg"/>
-			<axis xyz="0 0 1"/>
-			<limit effort="150.0" velocity="12.0"
-          lower="${-(1+reflect_front)*5*PI/36-(1-reflect_front)*7*PI/36}"
-		  upper="${(1-reflect_front)*5*PI/36+(1+reflect_front)*7*PI/36}"/>
-	</joint>
-
-	<!-- front shoulder -->
-	<!--xacro:billi_shoulder
-		name="fs"
-		parent="body"
-		reflect_hip="1"
-		reflect_upper="1"
-		reflect_front="1">
-		<origin xyz="${d_fh/2} ${d_lr/2} 0" rpy="0 ${PI/2} ${PI}"/>
-	</xacro:billi_shoulder-->
-
-	<!-- back shoulder -->
-	<!--xacro:billi_shoulder
-		name="bs"
-		parent="body"
-		reflect_hip="-1"
-		reflect_upper="-1"
-		reflect_front="1">
-		<origin xyz="${d_fh/2} ${-d_lr/2} 0" rpy="0 ${PI/2} 0"/>
-	</xacro:billi_shoulder-->
-
-	<!--gazebo>
-		<plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
-		  <jointName>fs_haa_joint, bs_haa_joint</jointName>
-		  <updateRate>60.0</updateRate>
-		  <alwaysOn>true</alwaysOn>
-		</plugin>
-	  </gazebo-->
+			<limit effort="10.0" velocity="1.0"
+          					lower="-1.1"
+		 				 upper="1.1"/>
+		</joint>
 	
-		<!-- transmissions -->
-		<!--xacro:macro name="trans" params="num name part">
-			<transmission name="tran${num}">
-			<joint name="${name}_${part}_joint">
-				<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-			</joint>
-			<type>transmission_interface/SimpleTransmission</type>
-			<actuator name="servo${num}">
-				<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-				<mechanicalReduction>1</mechanicalReduction>
-			</actuator>
-			</transmission>
-		</xacro:macro>
+		<gazebo reference="right_hand">
+			<provideFeedback>true</provideFeedback>
+			<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo>
 
-		<xacro:trans num="1" name="fs" part="haa"/>
-		<xacro:trans num="2" name="bs" part="haa"/-->
-    </xacro:macro>
+<!--lower_upper1 -->
+		<joint name="lower_upper1" type="revolute">
+			<origin xyz="0.0 -0.1964 0.0" rpy="0 0 0"/>
+			<parent link="leg1"/>
+			<child  link="leg-lower1"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="10.0" velocity="1.0"
+          					lower="-1.1"
+		  				upper="1.1"/>
+		</joint>
+		
+		<gazebo reference="lower_upper1">
+			<provideFeedback>true</provideFeedback>
+			<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo>
+
+<!--lower-feet -->
+    		<joint name="leg1_feet" type="fixed">
+			<origin xyz="0.11 -0.06 -0.30" rpy="0 1.57 -1.57"/>
+			<parent link="leg-lower1"/>
+			<child  link="paw"/>
+			<axis xyz="0 0 1"/>
+		</joint>
+
+		<gazebo reference="leg1_feet">
+			<provideFeedback>true</provideFeedback>
+			<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo>
+
+
+<!-- _____________________________________________________________LEFT HAND BOTH JOINTS_________________________________________________ -->
+
+<!--left_hand -->
+   		<joint name="left_hand" type="revolute">
+			<origin xyz="0 0 -0.46" rpy="0 0 0"/>
+			<parent link="body"/>
+			<child  link="leg4"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="10.0" velocity="1.0"
+          				lower="-1.1"
+		 			upper="1.1"/>
+		</joint>
+		<gazebo reference="left_hand">
+			<provideFeedback>true</provideFeedback>
+			<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo>
+
+
+<!-- lower_upper4-->
+		<joint name="lower_upper4" type="revolute">
+			<origin xyz="0.0 -0.19641 0.0" rpy="0 0 0"/>
+			<parent link="leg4"/>
+			<child  link="leg-lower4"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="10.0" velocity="1.0"
+          					lower="-1.1"
+		 				upper="1.1"/>
+		</joint>
+	
+		<gazebo reference="lower_upper4">
+			<provideFeedback>true</provideFeedback>
+			<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo>
+
+
+<!-- _____________________________________________________________RIGHT LEG BOTH JOINTS_________________________________________________ -->
+
+
+<!-- right_leg-->
+		<joint name="right_leg" type="revolute">
+			<origin xyz=".415 .085 0" rpy="0 0 0"/>
+			<parent link="body"/>
+			<child  link="leg2"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="10.0" velocity="1.0"
+          					lower="-1.1"
+		 				 upper="1.1"/>
+		</joint>
+		<gazebo reference="right_leg">
+			<provideFeedback>true</provideFeedback>
+			<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo>
+
+
+
+<!-- lower_upper2-->
+		<joint name="lower_upper2" type="revolute">
+			<origin xyz="0.0 -0.19641 0.0" rpy="0 0 0"/>
+			<parent link="leg2"/>
+			<child  link="leg-lower2"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="10.0" velocity="1.0"
+         					 lower="-1.1"
+		 				 upper="1.1"/>
+		</joint>
+		
+		<gazebo reference="lower_upper2">
+				<provideFeedback>true</provideFeedback>
+				<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo>
+
+
+
+<!-- _____________________________________________________________LEFT LEG BOTH JOINTS_________________________________________________ -->
+
+
+<!--left_leg -->
+    		<joint name="left_leg" type="revolute">
+			<origin xyz="0.415 0.085 -0.46" rpy="0 0 0"/>
+			<parent link="body"/>
+			<child  link="leg3"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="10.0" velocity="1.0"
+          					lower="-1.1"
+		 				 upper="1.1"/>
+		</joint>
+	
+		<gazebo reference="left_leg">
+			<provideFeedback>true</provideFeedback>
+			<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo>
+
+
+
+
+<!-- lower_upper3-->
+		<joint name="lower_upper3" type="revolute">
+			<origin xyz="0.0 -0.18641 0.0" rpy="0 0 0"/>
+			<parent link="leg3"/>
+			<child  link="leg-lower3"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="10.0" velocity="1.0"
+          					lower="-1.1"
+		 				upper="1.1"/>
+		</joint>
+
+		<gazebo reference="lower_upper3">
+			<provideFeedback>true</provideFeedback>
+			<disableFixedJointLumping>true</disableFixedJointLumping>
+		</gazebo>
+
+
+<!--___________________________________________________ Adding transmissions_____________________________________________________________-->
+<transmission name="head">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="head_body">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_head">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+</transmission>
+
+<transmission name="lu1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="right_hand">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor1">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+<transmission name="lb1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lower_upper1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor2">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+</transmission>
+
+<transmission name="lu2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="right_leg">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor3">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+<transmission name="lb2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lower_upper2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor4">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+</transmission>
+
+<transmission name="lu3">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="left_leg">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor5">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+<transmission name="lb3">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lower_upper3">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor6">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+<transmission name="lu4">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="left_hand">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor7">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+<transmission name="lb4">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="lower_upper4">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor8">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+</transmission>
+
+
+<gazebo>
+  <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    <robotNamespace>/billi/default_controller</robotNamespace>
+    <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+  </plugin>
+</gazebo>
+
 </robot>

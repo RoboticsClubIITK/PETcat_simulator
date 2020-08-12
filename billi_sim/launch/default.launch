@@ -10,6 +10,7 @@
     <env name="GAZEBO_MODEL_PATH"       value="${GAZEBO_MODEL_PATH}:$(find billi_sim)/models"/>
     <env name="GAZEBO_RESOURCE_PATH"    value="${GAZEBO_RESOURCE_PATH}:$(find billi_sim)/models"/>
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
+	<arg name="world_name" value="$(find billi_sim)/worlds/gravity.world"/>
         <arg name="debug" default="$(arg debug)"/>
         <arg name="verbose" default="$(arg verbose)"/>
         <arg name="gui" default="$(arg gui)"/>

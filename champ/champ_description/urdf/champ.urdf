@@ -11,13 +11,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/base.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/base.stl" scale="1 1 1"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/base.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/base.stl" scale="1 1 1"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -114,6 +114,14 @@
         <mesh filename="package://hector_sensors_description/meshes/asus_camera/asus_camera_simple.dae"/>
       </geometry>
     </visual>
+    <!--        
+       <collision>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.035 0.185 0.025"/>
+          </geometry>
+        </collision>
+        base-->
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
@@ -121,77 +129,30 @@
       </geometry>
     </collision>
   </link>
-  <link name="stereo_cam_link">
-    <inertial>
-      <mass value="0.001"/>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia ixx="1e-09" ixy="0.0" ixz="0.0" iyy="1e-09" iyz="0.0" izz="1e-09"/>
-    </inertial>
-  </link>
-  <joint name="stereo_cam_joint" type="fixed">
-    <parent link="base_link" />
-    <child link="stereo_cam_link" />
+  <joint name="camera_depth_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.0 0.049 0.0"/>
+    <parent link="camera_link"/>
+    <child link="camera_depth_frame"/>
   </joint>
-  <gazebo reference="stereo_cam_link">
-    <sensor name="stereo_camera" type="multicamera">
-      <update_rate>20</update_rate>
-      <camera name="left">
-        <horizontal_fov>1.09606677025</horizontal_fov>
-        <image>
-          <format>R8G8B8</format>
-          <width>640</width>
-          <height>480</height>
-        </image>
-        <clip>
-          <near>0.5</near>
-          <far>9</far>
-        </clip>
-        <noise>
-          <type>gaussian</type>
-          <!-- Noise is sampled independently per pixel on each frame.
-               That pixel's noise value is added to each of its color
-               channels, which at that point lie in the range [0,1]. -->
-          <mean>0.0</mean>
-          <stddev>0.007</stddev>
-        </noise>
-      </camera>
-      <camera name="right">
-        <pose>0 -0.07 0 0 0 0</pose>
-        <horizontal_fov>1.3962634</horizontal_fov>
-        <image>
-          <width>800</width>
-          <height>800</height>
-          <format>R8G8B8</format>
-        </image>
-        <clip>
-          <near>0.02</near>
-          <far>300</far>
-        </clip>
-        <noise>
-          <type>gaussian</type>
-          <mean>0.0</mean>
-          <stddev>0.007</stddev>
-        </noise>
-      </camera>
-
-      <plugin filename="libgazebo_ros_multicamera.so" name="stereo_camera_controller">
-        <alwaysOn>true</alwaysOn>
-        <updateRate>0.0</updateRate>
-        <cameraName>billi/camera</cameraName>
-        <imageTopicName>image_raw</imageTopicName>
-        <cameraInfoTopicName>/camera_info</cameraInfoTopicName>
-        <frameName>left_camera_frame</frameName>
-        <!-- <rightFrameName>right_camera_frame</rightFrameName> -->
-        <hackBaseline>0.07</hackBaseline>
-        <distortionK1>0.0</distortionK1>
-        <distortionK2>0.0</distortionK2>
-        <distortionK3>0.0</distortionK3>
-        <distortionT1>0.0</distortionT1>
-        <distortionT2>0.0</distortionT2>
-      </plugin>
-    </sensor>
-  </gazebo>
-
+  <link name="camera_depth_frame"/>
+  <joint name="camera_depth_optical_joint" type="fixed">
+    <origin rpy="-1.57079632679 0.0 -1.57079632679" xyz="0 0 0"/>
+    <parent link="camera_depth_frame"/>
+    <child link="camera_depth_optical_frame"/>
+  </joint>
+  <link name="camera_depth_optical_frame"/>
+  <joint name="camera_rgb_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.0 0.022 0.0"/>
+    <parent link="camera_link"/>
+    <child link="camera_rgb_frame"/>
+  </joint>
+  <link name="camera_rgb_frame"/>
+  <joint name="camera_rgb_optical_joint" type="fixed">
+    <origin rpy="-1.57079632679 0.0 -1.57079632679" xyz="0 0 0"/>
+    <parent link="camera_rgb_frame"/>
+    <child link="camera_rgb_optical_frame"/>
+  </joint>
+  <link name="camera_rgb_optical_frame"/>
   <gazebo>
     <plugin filename="libhector_gazebo_ros_imu.so" name="imu_controller">
       <updateRate>50.0</updateRate>
@@ -220,7 +181,7 @@
     <xacro:champ_arm parent="base_link">
         <origin xyz="0.07 0.0 ${base_z_length / 2}" rpy="0 0 0"/>
     </xacro:champ_arm> -->
-  <link name="lf_hip_debug_link"/>
+  <!-- <link name="lf_hip_debug_link"/>
   <link name="lf_hip_link">
     <inertial>
       <mass value="0.25"/>
@@ -242,23 +203,23 @@
   </link>
   <gazebo reference="lf_hip_link">
     <material>Gazebo/FlatBlack</material>
-  </gazebo>
+  </gazebo> -->
   <link name="lf_upper_leg_link">
     <inertial>
-      <origin xyz="0 0 -0.0705"/>
+      <origin xyz="0 0 0"/>
       <mass value="0.125"/>
       <inertia ixx="0.0003873984375" ixy="0.0" ixz="0.0" iyy="0.000404065104167" iyz="0.0" izz="3.54166666667e-05"/>
     </inertial>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/upper_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/upper_leg3.stl" scale="1 1 1"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/upper_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/upper_leg3.stl" scale="1 1 1"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -268,20 +229,20 @@
   </gazebo>
   <link name="lf_lower_leg_link">
     <inertial>
-      <origin xyz="0 0 -0.063"/>
+      <origin xyz="0 0 0"/>
       <mass value="0.125"/>
       <inertia ixx="0.000258541666667" ixy="0.0" ixz="0.0" iyy="0.00026934375" iyz="0.0" izz="2.08854166667e-05"/>
     </inertial>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/lower_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/lower_leg3.stl" scale="1 1 1"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/lower_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/lower_leg3.stl" scale="1 1 1"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -296,31 +257,31 @@
     <material>Gazebo/FlatBlack</material>
   </gazebo>
   <link name="lf_foot_link"/>
-  <joint name="lf_debug_joint" type="fixed">
+  <!-- <joint name="lf_debug_joint" type="fixed">
     <parent link="base_link"/>
     <child link="lf_hip_debug_link"/>
     <origin rpy="0 0 0" xyz="0.175 0.105 0"/>
-  </joint>
-  <joint name="lf_hip_joint" type="revolute">
+  </joint> -->
+  <!-- <joint name="lf_hip_joint" type="revolute">
     <axis xyz="1 0 0"/>
     <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="1.5"/>
     <parent link="base_link"/>
     <child link="lf_hip_link"/>
     <origin rpy="0 0 0" xyz="0.175 0.105 0"/>
-  </joint>
+  </joint> -->
   <joint name="lf_upper_leg_joint" type="revolute">
-    <axis xyz="0 1 0"/>
-    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="1.5"/>
-    <parent link="lf_hip_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="0.1"/>
+    <parent link="base_link"/>
     <child link="lf_upper_leg_link"/>
-    <origin rpy="0 0 0" xyz="0 0.06 0"/>
+    <origin xyz="0.083 0.017 -0.092" rpy="0 0 0"/>
   </joint>
   <joint name="lf_lower_leg_joint" type="revolute">
-    <axis xyz="0 1 0"/>
-    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="1.5"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="0.1"/>
     <parent link="lf_upper_leg_link"/>
     <child link="lf_lower_leg_link"/>
-    <origin rpy="0 0 0" xyz="0 0 -0.141"/>
+    <origin xyz="0.0 -0.039282 0.0" rpy="0 0 0"/>
   </joint>
   <joint name="lf_foot_joint" type="fixed">
     <parent link="lf_lower_leg_link"/>
@@ -328,7 +289,7 @@
     <!-- <origin xyz="0.00325 0 -${lower_leg_to_foot_distance}" rpy="0 0 0" /> -->
     <origin rpy="0 0 0" xyz="0 0 -0.141"/>
   </joint>
-  <transmission name="lf_hip_joint_trans">
+  <!-- <transmission name="lf_hip_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="lf_hip_joint">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
@@ -337,7 +298,7 @@
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
-  </transmission>
+  </transmission> -->
   <transmission name="lf_upper_leg_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="lf_upper_leg_joint">
@@ -358,7 +319,7 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
-  <link name="lh_hip_debug_link"/>
+  <!-- <link name="lh_hip_debug_link"/>
   <link name="lh_hip_link">
     <inertial>
       <mass value="0.25"/>
@@ -380,7 +341,7 @@
   </link>
   <gazebo reference="lh_hip_link">
     <material>Gazebo/FlatBlack</material>
-  </gazebo>
+  </gazebo> -->
   <link name="lh_upper_leg_link">
     <inertial>
       <origin xyz="0 0 -0.0705"/>
@@ -390,13 +351,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/upper_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/upper_leg4.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/upper_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/upper_leg4.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -413,13 +374,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/lower_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/lower_leg4.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/lower_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/lower_leg4.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -434,31 +395,31 @@
     <material>Gazebo/FlatBlack</material>
   </gazebo>
   <link name="lh_foot_link"/>
-  <joint name="lh_debug_joint" type="fixed">
+  <!-- <joint name="lh_debug_joint" type="fixed">
     <parent link="base_link"/>
     <child link="lh_hip_debug_link"/>
     <origin rpy="0 0 0" xyz="-0.175 0.105 0"/>
-  </joint>
-  <joint name="lh_hip_joint" type="revolute">
+  </joint> -->
+  <!-- <joint name="lh_hip_joint" type="revolute">
     <axis xyz="1 0 0"/>
     <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="1.5"/>
     <parent link="base_link"/>
     <child link="lh_hip_link"/>
     <origin rpy="0 0 0" xyz="-0.175 0.105 0"/>
-  </joint>
+  </joint> -->
   <joint name="lh_upper_leg_joint" type="revolute">
-    <axis xyz="0 1 0"/>
-    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="1.5"/>
-    <parent link="lh_hip_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="0.1"/>
+    <parent link="base_link"/>
     <child link="lh_upper_leg_link"/>
-    <origin rpy="0 0 0" xyz="0 0.06 0"/>
+    <origin xyz="0 0 -0.092" rpy="0 0 0"/>
   </joint>
   <joint name="lh_lower_leg_joint" type="revolute">
-    <axis xyz="0 1 0"/>
-    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="1.5"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="0.1"/>
     <parent link="lh_upper_leg_link"/>
     <child link="lh_lower_leg_link"/>
-    <origin rpy="0 0 0" xyz="0 0 -0.141"/>
+    <origin xyz="0.0 -0.039282 0.0" rpy="0 0 0"/>
   </joint>
   <joint name="lh_foot_joint" type="fixed">
     <parent link="lh_lower_leg_link"/>
@@ -466,7 +427,7 @@
     <!-- <origin xyz="0.00325 0 -${lower_leg_to_foot_distance}" rpy="0 0 0" /> -->
     <origin rpy="0 0 0" xyz="0 0 -0.141"/>
   </joint>
-  <transmission name="lh_hip_joint_trans">
+  <!-- <transmission name="lh_hip_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="lh_hip_joint">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
@@ -475,7 +436,7 @@
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
-  </transmission>
+  </transmission> -->
   <transmission name="lh_upper_leg_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="lh_upper_leg_joint">
@@ -496,7 +457,7 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
-  <link name="rf_hip_debug_link"/>
+  <!-- <link name="rf_hip_debug_link"/>
   <link name="rf_hip_link">
     <inertial>
       <mass value="0.25"/>
@@ -518,7 +479,7 @@
   </link>
   <gazebo reference="rf_hip_link">
     <material>Gazebo/FlatBlack</material>
-  </gazebo>
+  </gazebo> -->
   <link name="rf_upper_leg_link">
     <inertial>
       <origin xyz="0 0 -0.0705"/>
@@ -528,13 +489,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/upper_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/upper_leg2.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/upper_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/upper_leg2.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -551,13 +512,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/lower_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/lower_leg2.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/lower_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/lower_leg2.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -572,31 +533,31 @@
     <material>Gazebo/FlatBlack</material>
   </gazebo>
   <link name="rf_foot_link"/>
-  <joint name="rf_debug_joint" type="fixed">
+  <!-- <joint name="rf_debug_joint" type="fixed">
     <parent link="base_link"/>
     <child link="rf_hip_debug_link"/>
     <origin rpy="0 0 0" xyz="0.175 -0.105 0"/>
-  </joint>
-  <joint name="rf_hip_joint" type="revolute">
+  </joint> -->
+  <!-- <joint name="rf_hip_joint" type="revolute">
     <axis xyz="1 0 0"/>
     <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="1.5"/>
     <parent link="base_link"/>
     <child link="rf_hip_link"/>
     <origin rpy="0 0 0" xyz="0.175 -0.105 0"/>
-  </joint>
+  </joint> -->
   <joint name="rf_upper_leg_joint" type="revolute">
-    <axis xyz="0 1 0"/>
-    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="1.5"/>
-    <parent link="rf_hip_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="0.1"/>
+    <parent link="base_link"/>
     <child link="rf_upper_leg_link"/>
-    <origin rpy="0 0 0" xyz="0 -0.06 0"/>
+    <origin xyz=".083 .017 0" rpy="0 0 0"/>
   </joint>
   <joint name="rf_lower_leg_joint" type="revolute">
-    <axis xyz="0 1 0"/>
-    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="1.5"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="0.1"/>
     <parent link="rf_upper_leg_link"/>
     <child link="rf_lower_leg_link"/>
-    <origin rpy="0 0 0" xyz="0 0 -0.141"/>
+    <origin xyz="0.0 -0.039282 0.0" rpy="0 0 0"/>
   </joint>
   <joint name="rf_foot_joint" type="fixed">
     <parent link="rf_lower_leg_link"/>
@@ -604,7 +565,7 @@
     <!-- <origin xyz="0.00325 0 -${lower_leg_to_foot_distance}" rpy="0 0 0" /> -->
     <origin rpy="0 0 0" xyz="0 0 -0.141"/>
   </joint>
-  <transmission name="rf_hip_joint_trans">
+  <!-- <transmission name="rf_hip_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="rf_hip_joint">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
@@ -613,7 +574,7 @@
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
-  </transmission>
+  </transmission> -->
   <transmission name="rf_upper_leg_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="rf_upper_leg_joint">
@@ -634,29 +595,7 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
-  <link name="rh_hip_debug_link"/>
-  <link name="rh_hip_link">
-    <inertial>
-      <mass value="0.25"/>
-      <inertia ixx="0.000485416666667" ixy="0.0" ixz="0.0" iyy="0.000613416666667" iyz="0.0" izz="0.000394666666667"/>
-    </inertial>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://champ_description/meshes/hip.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-      <material name="black"/>
-    </visual>
-  </link>
-  <gazebo reference="rh_hip_link">
-    <material>Gazebo/FlatBlack</material>
-  </gazebo>
+  
   <link name="rh_upper_leg_link">
     <inertial>
       <origin xyz="0 0 -0.0705"/>
@@ -666,13 +605,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/upper_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/upper_leg1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/upper_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/upper_leg1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -689,13 +628,13 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/lower_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/lower_leg1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://champ_description/meshes/lower_leg.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://champ_description/meshes/lower_leg1.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -710,31 +649,31 @@
     <material>Gazebo/FlatBlack</material>
   </gazebo>
   <link name="rh_foot_link"/>
-  <joint name="rh_debug_joint" type="fixed">
+  <!-- <joint name="rh_debug_joint" type="fixed">
     <parent link="base_link"/>
     <child link="rh_hip_debug_link"/>
     <origin rpy="0 0 0" xyz="-0.175 -0.105 0"/>
-  </joint>
-  <joint name="rh_hip_joint" type="revolute">
+  </joint> -->
+  <!-- <joint name="rh_hip_joint" type="revolute">
     <axis xyz="1 0 0"/>
     <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="1.5"/>
     <parent link="base_link"/>
     <child link="rh_hip_link"/>
     <origin rpy="0 0 0" xyz="-0.175 -0.105 0"/>
-  </joint>
+  </joint> -->
   <joint name="rh_upper_leg_joint" type="revolute">
-    <axis xyz="0 1 0"/>
-    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="1.5"/>
-    <parent link="rh_hip_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="0.1"/>
+    <parent link="base_link"/>
     <child link="rh_upper_leg_link"/>
-    <origin rpy="0 0 0" xyz="0 -0.06 0"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
   </joint>
   <joint name="rh_lower_leg_joint" type="revolute">
-    <axis xyz="0 1 0"/>
-    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="1.5"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="25" lower="-3.14159265359" upper="3.14159265359" velocity="0.1"/>
     <parent link="rh_upper_leg_link"/>
     <child link="rh_lower_leg_link"/>
-    <origin rpy="0 0 0" xyz="0 0 -0.141"/>
+    <origin xyz="0.0 -0.039282 0.0" rpy="0 0 0"/>
   </joint>
   <joint name="rh_foot_joint" type="fixed">
     <parent link="rh_lower_leg_link"/>
@@ -742,7 +681,7 @@
     <!-- <origin xyz="0.00325 0 -${lower_leg_to_foot_distance}" rpy="0 0 0" /> -->
     <origin rpy="0 0 0" xyz="0 0 -0.141"/>
   </joint>
-  <transmission name="rh_hip_joint_trans">
+  <!-- <transmission name="rh_hip_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="rh_hip_joint">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
@@ -751,7 +690,7 @@
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
-  </transmission>
+  </transmission> -->
   <transmission name="rh_upper_leg_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="rh_upper_leg_joint">

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>towr_simulator</name>
+  <version>0.0.0</version>
+  <description>The simulator package</description>
+
+  <maintainer email="ashwins@iitk.ac.in">Ashwin Shenai</maintainer>
+
+  <license>BSD</license>
+
+  <author email="ashwins@iitk.ac.in">Ashwin Shenai</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>catkin_simple</buildtool_depend>
+  
+  <depend>roscpp</depend>
+  <depend>towr_ros</depend>
+  <depend>xpp_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>catkin_simple</depend>
+
+</package>

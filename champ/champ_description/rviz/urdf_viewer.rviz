@@ -71,16 +71,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-<<<<<<< HEAD
-        camera_depth_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_depth_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-=======
         # camera_depth_frame:
         #   Alpha: 1
         #   Show Axes: false
@@ -89,28 +79,16 @@ Visualization Manager:
         #   Alpha: 1
         #   Show Axes: false
         #   Show Trail: false
->>>>>>> champ
         camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-<<<<<<< HEAD
-        camera_rgb_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_rgb_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-=======
         stereo_cam_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
->>>>>>> champ
         hokuyo_frame:
           Alpha: 1
           Show Axes: false
@@ -236,18 +214,6 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
-<<<<<<< HEAD
-        camera_depth_frame:
-          Value: true
-        camera_depth_optical_frame:
-          Value: true
-        camera_link:
-          Value: true
-        camera_rgb_frame:
-          Value: true
-        camera_rgb_optical_frame:
-          Value: true
-=======
         # camera_depth_frame:
         #   Value: true
         # camera_depth_optical_frame:
@@ -260,7 +226,6 @@ Visualization Manager:
         #  Value: true
         #camera_rgb_optical_frame:
         #  Value: true
->>>>>>> champ
         hokuyo_frame:
           Value: true
         imu_link:
@@ -319,18 +284,9 @@ Visualization Manager:
               base_inertia:
                 {}
               camera_link:
-<<<<<<< HEAD
-                camera_depth_frame:
-                  camera_depth_optical_frame:
-                    {}
-                camera_rgb_frame:
-                  camera_rgb_optical_frame:
-                    {}
-=======
                 {}
               stereo_cam_link:
                 {}
->>>>>>> champ
               hokuyo_frame:
                 {}
               imu_link:

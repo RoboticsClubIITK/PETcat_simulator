@@ -10,10 +10,7 @@
     <arg name="has_imu"          default="true" />
     <arg name="lite"             default="false" />
     <arg name="laser"            default="sim"/>
-<<<<<<< HEAD
-=======
     
->>>>>>> champ
 
     <include file="$(find champ_bringup)/launch/bringup.launch">
         <arg name="robot_name"       value="$(arg robot_name)"/>

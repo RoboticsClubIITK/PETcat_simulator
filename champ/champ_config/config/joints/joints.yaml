@@ -1,23 +1,39 @@
 left_front:
+<<<<<<< HEAD
   #- lf_hip_joint
+=======
+  - lf_hip_joint
+>>>>>>> champ
   - lf_upper_leg_joint
   - lf_lower_leg_joint
   - lf_foot_joint
 
 right_front:
+<<<<<<< HEAD
  # - rf_hip_joint
+=======
+  - rf_hip_joint
+>>>>>>> champ
   - rf_upper_leg_joint
   - rf_lower_leg_joint
   - rf_foot_joint
 
 left_hind:
+<<<<<<< HEAD
  # - lh_hip_joint
+=======
+  - lh_hip_joint
+>>>>>>> champ
   - lh_upper_leg_joint
   - lh_lower_leg_joint
   - lh_foot_joint
 
 right_hind:
+<<<<<<< HEAD
   #- rh_hip_joint
+=======
+  - rh_hip_joint
+>>>>>>> champ
   - rh_upper_leg_joint
   - rh_lower_leg_joint
   - rh_foot_joint

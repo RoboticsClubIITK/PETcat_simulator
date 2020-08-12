@@ -9,11 +9,19 @@
 
     <!-- this should be only called once on multi-robot simulation -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
+<<<<<<< HEAD
         <arg name="world_name" value="$(find champ_gazebo)/worlds/outdoor.world"/>
+=======
+        <arg name="world_name" value="$(find champ_gazebo)/worlds/default.world"/>
+>>>>>>> champ
         <arg name="gui" value="$(arg gui)" />
         <arg name="paused" value="$(arg paused)"/>
         <arg name="use_sim_time" value="true"/>
         <arg name="headless" value="$(arg headless)"/>
+<<<<<<< HEAD
+=======
+        <arg name="verbose" default="true"/>
+>>>>>>> champ
     </include>
 
     <group ns="$(arg robot_name)">

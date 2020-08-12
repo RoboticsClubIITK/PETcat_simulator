@@ -51,7 +51,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <visualization_msgs/Marker.h>
 #include <visualization_msgs/MarkerArray.h>
 #include <tf2_ros/transform_broadcaster.h>
-#include <geometry_msgs/Quaternion.h>
 
 class MessageRelay
 {
@@ -91,8 +90,6 @@ class MessageRelay
 
     champ::Pose req_pose_;
     sensor_msgs::Imu imu_data_;
-
-    champ::Velocities current_velocities_;
 
     visualization_msgs::Marker createMarker(geometry::Transformation foot_pos, int id, std::string frame_id);
     void footRawCallback(const champ_msgs::PointArray::ConstPtr& msg);

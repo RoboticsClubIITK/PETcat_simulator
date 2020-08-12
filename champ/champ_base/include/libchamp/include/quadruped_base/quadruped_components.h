@@ -156,11 +156,9 @@ namespace champ
             GaitConfig():
                 knee_orientation(">>"),
                 pantograph_leg(false),
-                odom_scaler(0.0f),
                 max_linear_velocity_x(0.0f),
                 max_linear_velocity_y(0.0f),
                 max_angular_velocity_z(0.0f),
-                com_x_translation(0.0f),
                 swing_height(0.0f),
                 stance_depth(0.0f),
                 stance_duration(0.0f),
@@ -168,22 +166,18 @@ namespace champ
             {}
             GaitConfig(const char * knee_or,
                 bool panto_leg,
-                float odom_scaler_val,
                 float max_l_x,
                 float max_l_y,
                 float max_a_z,
-                float com_x_trans,
                 float swing_h,
                 float stan_dep,
                 float stan_dur,
                 float nom_height):
                     knee_orientation(knee_or),
                     pantograph_leg(panto_leg),
-                    odom_scaler(odom_scaler_val),
                     max_linear_velocity_x(max_l_x),
                     max_linear_velocity_y(max_l_y),
                     max_angular_velocity_z(max_a_z),
-                    com_x_translation(com_x_trans),
                     swing_height(swing_h),
                     stance_depth(stan_dep),
                     stance_duration(stan_dur),
@@ -191,11 +185,9 @@ namespace champ
             {}
             const char * knee_orientation;
             bool pantograph_leg;
-            float odom_scaler;
             float max_linear_velocity_x;
             float max_linear_velocity_y;
             float max_angular_velocity_z;
-            float com_x_translation;
             float swing_height;
             float stance_depth;
             float stance_duration;

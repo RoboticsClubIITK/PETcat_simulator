@@ -71,24 +71,27 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        # camera_depth_frame:
-        #   Alpha: 1
-        #   Show Axes: false
-        #   Show Trail: false
-        # camera_depth_optical_frame:
-        #   Alpha: 1
-        #   Show Axes: false
-        #   Show Trail: false
+        camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        stereo_cam_link:
+        camera_rgb_frame:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
+        camera_rgb_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         hokuyo_frame:
           Alpha: 1
           Show Axes: false
@@ -214,18 +217,16 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
-        # camera_depth_frame:
-        #   Value: true
-        # camera_depth_optical_frame:
-        #   Value: true
+        camera_depth_frame:
+          Value: true
+        camera_depth_optical_frame:
+          Value: true
         camera_link:
           Value: true
-        stereo_cam_link:
+        camera_rgb_frame:
           Value: true
-        #camera_rgb_frame:
-        #  Value: true
-        #camera_rgb_optical_frame:
-        #  Value: true
+        camera_rgb_optical_frame:
+          Value: true
         hokuyo_frame:
           Value: true
         imu_link:
@@ -284,9 +285,12 @@ Visualization Manager:
               base_inertia:
                 {}
               camera_link:
-                {}
-              stereo_cam_link:
-                {}
+                camera_depth_frame:
+                  camera_depth_optical_frame:
+                    {}
+                camera_rgb_frame:
+                  camera_rgb_optical_frame:
+                    {}
               hokuyo_frame:
                 {}
               imu_link:

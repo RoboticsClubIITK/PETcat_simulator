@@ -1,0 +1,31 @@
+default_controller:
+    type: position_controllers/JointGroupPositionController
+
+    joints:
+      - lf_haa_joint
+      - lf_hfe_joint
+      - lf_kfe_joint
+      - rf_haa_joint
+      - rf_hfe_joint
+      - rf_kfe_joint
+      - lh_haa_joint
+      - lh_hfe_joint
+      - lh_kfe_joint
+      - rh_haa_joint
+      - rh_hfe_joint
+      - rh_kfe_joint
+
+# gazebo_ros_control:
+#   pid_gains:
+#     lf_haa_joint: {p: 200, d: 1, i: 30, i_clamp: 100}
+#     lf_hfe_joint: {p: 200, d: 1, i: 30, i_clamp: 100}
+#     lf_kfe_joint: {p: 200, d: 1, i: 30, i_clamp: 100}
+#     lh_haa_joint: {p: 200, d: 1, i: 30, i_clamp: 100}
+#     lh_hfe_joint: {p: 200, d: 1, i: 30, i_clamp: 100}
+#     lh_kfe_joint: {p: 200, d: 1, i: 30, i_clamp: 100}
+#     rf_haa_joint: {p: 200, d: 1, i: 30, i_clamp: 100}
+#     rf_hfe_joint: {p: 200, d: 1, i: 30, i_clamp: 100}
+#     rf_kfe_joint: {p: 200, d: 1, i: 30, i_clamp: 100}
+#     rh_haa_joint: {p: 200, d: 1, i: 30, i_clamp: 100}
+#     rh_hfe_joint: {p: 200, d: 1, i: 30, i_clamp: 100}
+#     rh_kfe_joint: {p: 200, d: 1, i: 30, i_clamp: 100}

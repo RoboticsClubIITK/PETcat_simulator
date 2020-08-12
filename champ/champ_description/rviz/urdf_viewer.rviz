@@ -71,27 +71,24 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_depth_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        camera_depth_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
+        # camera_depth_frame:
+        #   Alpha: 1
+        #   Show Axes: false
+        #   Show Trail: false
+        # camera_depth_optical_frame:
+        #   Alpha: 1
+        #   Show Axes: false
+        #   Show Trail: false
         camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_rgb_frame:
+        stereo_cam_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        camera_rgb_optical_frame:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
+          Value: true
         hokuyo_frame:
           Alpha: 1
           Show Axes: false
@@ -217,11 +214,13 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
-        camera_depth_frame:
-          Value: true
-        camera_depth_optical_frame:
-          Value: true
+        # camera_depth_frame:
+        #   Value: true
+        # camera_depth_optical_frame:
+        #   Value: true
         camera_link:
+          Value: true
+        stereo_cam_link:
           Value: true
         #camera_rgb_frame:
         #  Value: true
@@ -285,6 +284,8 @@ Visualization Manager:
               base_inertia:
                 {}
               camera_link:
+                {}
+              stereo_cam_link:
                 {}
               hokuyo_frame:
                 {}

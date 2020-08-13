@@ -1,39 +1,38 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-	<!-- body macro definition -->
-	<xacro:macro name="billi_body" params="name">
-	
-		<!-- Floating-base Joint -->
-		<!--joint name="floating_base" type="fixed">
-			<origin xyz="0 0 0" rpy="0 0 0"/>
-			<parent link="${name}"/>
-			<child link="body"/>
-		</joint>
-		<gazebo reference="floating_base">
-			<provideFeedback>true</provideFeedback>
-			<disableFixedJointLumping>true</disableFixedJointLumping>
-		</gazebo-->
-		
-		<!-- body link -->
-		<link name="body">
-			<visual>
-				<geometry>
-					<mesh filename="package://billi_sim/models/meshes/body.stl" scale="1 1 1"/>
-				</geometry>
-			</visual>
-			<collision>
-				<geometry>
-					<mesh filename="package://billi_sim/models/meshes/body.stl" scale="1 1 1"/>
-				</geometry>
-			</collision> 
-			<inertial>
-				<mass value="1.0"/>
-				<inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
-			</inertial>
-		</link>
-		<gazebo reference="body"/>
+<robot name="billi" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-	</xacro:macro>
+
+<!--BODY LINK -->
+<link name="body">
+	<visual>
+		<origin rpy="0 0 0" xyz="0 0 0"/>
+      		<geometry>
+        		<mesh filename="package://billi_sim/models/meshes/body.stl" scale ="5 5 5"/>
+      		</geometry>
+      		<material name="blue"/>
+    	</visual>
+				<!-- __________________________________ -->
+    	<collision>
+		<origin rpy="0 0 0" xyz="0 0 0"/>
+      		<geometry>
+        		<mesh filename="package://billi_sim/models/meshes/body.stl" scale ="5 5 5"/>
+      		</geometry>
+    	</collision>
+				<!-- __________________________________ -->
+	<inertial>
+		  <mass value="1.5"/>
+		  <origin rpy="0 0 0" xyz="0 0 0.1"/>
+		  <inertia ixx="0.192" ixy="-0.052" ixz="0" iyy="0.595" iyz="0" izz="0.459"/>
+	</inertial>
+</link>
+<gazebo reference="body">
+        <kp>1000.0</kp>
+        <kd>1000.0</kd>
+        <mu1>10.0</mu1>
+        <mu2>10.0</mu2>
+        <material>Gazebo/blue</material>
+    </gazebo>
 
 </robot>
+

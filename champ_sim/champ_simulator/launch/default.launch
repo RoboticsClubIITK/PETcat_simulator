@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="ugv_name" default="billi"/>
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="debug" default="false"/>
+    <arg name="verbose" default="false"/>
+    <!-- <arg name="ros_control_file" default="$(find champ_config)/config/ros_control/ros_control.yaml" /> -->
+
+    <env name="GAZEBO_MODEL_PATH"       value="${GAZEBO_MODEL_PATH}:$(find champ_simulator)/meshes"/>
+    <env name="GAZEBO_RESOURCE_PATH"    value="${GAZEBO_RESOURCE_PATH}:$(find champ_simulator)/meshes"/>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+	<arg name="world_name" value="$(find champ_simulator)/worlds/small.world"/>
+        <arg name="debug" default="$(arg debug)"/>
+        <arg name="verbose" default="$(arg verbose)"/>
+        <arg name="gui" default="$(arg gui)"/>
+        <arg name="paused" default="$(arg paused)"/>
+        <arg name="use_sim_time" default="$(arg use_sim_time)"/>
+    </include>
+
+
+    <group ns="$(arg ugv_name)">
+        <include file="$(find champ_simulator)/launch/spawn_champ.launch">
+            <arg name="ugv_name" default="$(arg ugv_name)"/>
+        </include>
+    </group>
+</launch>

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+
+set -e
+rosrun xacro xacro champ.urdf.xacro > champ.urdf
+

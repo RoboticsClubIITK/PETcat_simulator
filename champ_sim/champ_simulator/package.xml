@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>champ_simulator</name>
+  <version>0.0.0</version>
+  <description>The champ_simulator package</description>
+
+  <maintainer email="pushpanshu@todo.todo">pushpanshu</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>rviz</exec_depend>
+  <exec_depend>gazebo_plugins</exec_depend>
+  <exec_depend>hector_gazebo_plugins</exec_depend>
+  <exec_depend>hector_sensors_description</exec_depend>
+
+  <export>
+  </export>
+</package>
